@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
+import { Transition } from '@headlessui/react';
 
 const Nav = () => {
   const [MenuVisibility, setMenuVisibility] = useState(false);
+  const [
+    ProfileOptionsDropdownVisibiity,
+    setProfileOptionsDropdownVisibiity,
+  ] = useState(false);
   return (
     <nav className='bg-indigo-800 border-b border-indigo-400 border-opacity-25 lg:border-none'>
       <div className='max-w-7xl mx-auto px-2 sm:px-4 lg:px-8'>
@@ -163,7 +168,17 @@ const Nav = () => {
                     aria-haspopup='true'
                   >
                     <span className='sr-only'>Open profile menu</span>
+
                     <img
+                      onMouseEnter={() =>
+                        setProfileOptionsDropdownVisibiity(true)
+                      }
+                      onBlur={() =>
+                        setTimeout(
+                          () => setProfileOptionsDropdownVisibiity(false),
+                          50
+                        )
+                      }
                       className='rounded-full h-8 w-8'
                       src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
                       alt=''
@@ -180,36 +195,56 @@ const Nav = () => {
               From: "transform opacity-100 scale-100"
               To: "transform opacity-0 scale-95"
           */}
-                <div className='origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg'>
+                <Transition
+                  show={ProfileOptionsDropdownVisibiity}
+                  enter='transition ease-out duration-100'
+                  enterFrom='transform opacity-0 scale-95'
+                  enterTo='transform opacity-100 scale-100'
+                  leave='transition ease-in duration-75'
+                  leaveFrom='transform opacity-100 scale-100'
+                  leaveTo='transform opacity-0 scale-95'
+                >
                   <div
-                    className='py-1 bg-white rounded-md shadow-xs'
-                    role='menu'
-                    aria-orientation='vertical'
-                    aria-labelledby='user-menu'
+                    className='origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg'
+                    onFocus={() => () =>
+                      setProfileOptionsDropdownVisibiity(true)}
+                    onBlur={() =>
+                      setTimeout(
+                        () => setProfileOptionsDropdownVisibiity(false),
+                        300
+                      )
+                    }
                   >
-                    <a
-                      href='/'
-                      className='block py-2 px-4 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out'
-                      role='menuitem'
+                    <div
+                      className='py-1 bg-white rounded-md shadow-xs'
+                      role='menu'
+                      aria-orientation='vertical'
+                      aria-labelledby='user-menu'
                     >
-                      Your Profile
-                    </a>
-                    <a
-                      href='/'
-                      className='block py-2 px-4 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out'
-                      role='menuitem'
-                    >
-                      Settings
-                    </a>
-                    <a
-                      href='/'
-                      className='block py-2 px-4 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out'
-                      role='menuitem'
-                    >
-                      Sign out
-                    </a>
+                      <a
+                        href='/'
+                        className='block py-2 px-4 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out'
+                        role='menuitem'
+                      >
+                        Your Profile
+                      </a>
+                      <a
+                        href='/'
+                        className='block py-2 px-4 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out'
+                        role='menuitem'
+                      >
+                        Settings
+                      </a>
+                      <a
+                        href='/'
+                        className='block py-2 px-4 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out'
+                        role='menuitem'
+                      >
+                        Sign out
+                      </a>
+                    </div>
                   </div>
-                </div>
+                </Transition>
               </div>
             </div>
           </div>
