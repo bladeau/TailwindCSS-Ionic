@@ -84,6 +84,11 @@ const Nav = () => {
             <button
               className='p-2 rounded-md inline-flex items-center justify-center text-indigo-300 hover:text-white hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 focus:text-white transition duration-150 ease-in-out'
               aria-expanded='false'
+              onClick={() =>
+                setMenuVisibility(
+                  (lastMenuVisbilityState) => !lastMenuVisbilityState
+                )
+              }
             >
               <span className='sr-only'>Open main menu</span>
               {/* Icon when menu is closed. */}
@@ -243,7 +248,7 @@ const Nav = () => {
 
   Menu open: "block", Menu closed: "hidden"
 */}
-      <div className='hidden lg:hidden'>
+      <div className={MenuVisibility ? 'block lg:block' : 'hidden lg:hidden'}>
         <div className='px-2 pt-2 pb-3'>
           <a
             href='/'
