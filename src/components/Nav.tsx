@@ -20,7 +20,15 @@ const Nav = () => {
     /* Inside of a "useEffect" hook add an event listener that updates
        the "width" state variable when the window size changes */
 
-    const handleWindowResize = () => setWidth(window.innerWidth);
+    const handleWindowResize = () => {
+      setProfileOptionsDropdownVisibiity({
+        open: false,
+        event: undefined,
+      });
+
+      setWidth(window.innerWidth);
+    };
+
     window.addEventListener('resize', handleWindowResize);
 
     /* passing an empty array as the dependencies of the effect will cause this
@@ -219,40 +227,63 @@ const Nav = () => {
                   cssClass='popover-top-right'
                   isOpen={ProfileOptionsDropdownVisibiity.open}
                   event={ProfileOptionsDropdownVisibiity.event}
-                  onDidDismiss={(e) =>
+                  onDidDismiss={() =>
                     setProfileOptionsDropdownVisibiity({
                       open: false,
                       event: undefined,
                     })
                   }
                 >
-                  <div
-                    className='py-1 bg-white rounded-md shadow-xs'
-                    role='menu'
-                    aria-orientation='vertical'
-                    aria-labelledby='user-menu'
-                  >
-                    <a
-                      href='/'
-                      className='block py-2 px-4 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out'
-                      role='menuitem'
+                  <div className='origin-top-right  right-0 mt-2 w-56 rounded-md shadow-lg'>
+                    <div
+                      className='rounded-md bg-white shadow-xs'
+                      role='menu'
+                      aria-orientation='vertical'
+                      aria-labelledby='options-menu'
                     >
-                      Your Profile
-                    </a>
-                    <a
-                      href='/'
-                      className='block py-2 px-4 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out'
-                      role='menuitem'
-                    >
-                      Settings
-                    </a>
-                    <a
-                      href='/'
-                      className='block py-2 px-4 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out'
-                      role='menuitem'
-                    >
-                      Sign out
-                    </a>
+                      <div className='px-4 py-3'>
+                        <p className='text-sm leading-5'>Signed in as</p>
+                        <p className='text-sm leading-5 font-medium text-gray-900 truncate'>
+                          tom@example.com
+                        </p>
+                      </div>
+                      <div className='border-t border-gray-100'></div>
+                      <div className='py-1'>
+                        <a
+                          href='#'
+                          className='block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900'
+                          role='menuitem'
+                        >
+                          Account settings
+                        </a>
+                        <a
+                          href='#'
+                          className='block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900'
+                          role='menuitem'
+                        >
+                          Support
+                        </a>
+                        <a
+                          href='#'
+                          className='block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900'
+                          role='menuitem'
+                        >
+                          License
+                        </a>
+                      </div>
+                      <div className='border-t border-gray-100'></div>
+                      <div className='py-1'>
+                        <form method='POST' action='#'>
+                          <button
+                            type='submit'
+                            className='block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900'
+                            role='menuitem'
+                          >
+                            Sign out
+                          </button>
+                        </form>
+                      </div>
+                    </div>
                   </div>
                 </IonPopover>
               </div>

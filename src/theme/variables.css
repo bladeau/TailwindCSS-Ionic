@@ -79,4 +79,10 @@ http://ionicframework.com/docs/theming/ */
 /** PopOver Location Fix **/
 .popover-top-right .popover-content {
   margin-top: 5px !important;
+  background-color: none !important;
+  background: none;
+  border: none;
+  border-width: 0;
+  border-style: none !important;
+  box-shadow: none;
 }
