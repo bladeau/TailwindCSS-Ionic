@@ -1,12 +1,34 @@
+import { IonPopover } from '@ionic/react';
 import React, { useState } from 'react';
-import { Transition } from '@headlessui/react';
+// import { Transition } from '@headlessui/react';
 
 const Nav = () => {
   const [MenuVisibility, setMenuVisibility] = useState(false);
   const [
     ProfileOptionsDropdownVisibiity,
     setProfileOptionsDropdownVisibiity,
-  ] = useState(false);
+  ] = useState<{ open: boolean; event: Event | undefined }>({
+    open: false,
+    event: undefined,
+  });
+
+  const [width, setWidth] = React.useState(window.innerWidth);
+
+  const breakpoint = 1024;
+
+  React.useEffect(() => {
+    /* Inside of a "useEffect" hook add an event listener that updates
+       the "width" state variable when the window size changes */
+
+    const handleWindowResize = () => setWidth(window.innerWidth);
+    window.addEventListener('resize', handleWindowResize);
+
+    /* passing an empty array as the dependencies of the effect will cause this
+       effect to only run when the component mounts, and not each time it updates.
+       We only want the listener to be added once */
+    return () => window.removeEventListener('resize', handleWindowResize);
+  }, []);
+
   return (
     <nav className='bg-indigo-800 border-indigo-400 border-opacity-25 lg:border-none'>
       <div className='max-w-7xl mx-auto px-2 sm:px-4 lg:px-8'>
@@ -99,7 +121,7 @@ const Nav = () => {
         */}
               <svg
                 className={
-                  MenuVisibility
+                  MenuVisibility && width < breakpoint
                     ? 'hidden flex-shrink-0 h-6 w-6'
                     : 'block flex-shrink-0 h-6 w-6'
                 }
@@ -124,7 +146,7 @@ const Nav = () => {
         */}
               <svg
                 className={
-                  MenuVisibility
+                  MenuVisibility && width < breakpoint
                     ? 'block flex-shrink-0 h-6 w-6'
                     : 'hidden flex-shrink-0 h-6 w-6'
                 }
@@ -171,13 +193,18 @@ const Nav = () => {
                     className='rounded-full flex text-sm text-white focus:outline-none focus:shadow-solid transition duration-150 ease-in-out'
                     id='user-menu'
                     aria-haspopup='true'
-                    onClick={() => setProfileOptionsDropdownVisibiity(true)}
-                    onBlur={() =>
-                      setTimeout(
-                        () => setProfileOptionsDropdownVisibiity(false),
-                        50
-                      )
+                    onClick={(e) =>
+                      setProfileOptionsDropdownVisibiity({
+                        open: true,
+                        event: e.nativeEvent,
+                      })
                     }
+                    // onBlur={() =>
+                    //   setTimeout(
+                    //     () => setProfileOptionsDropdownVisibiity(false),
+                    //     50
+                    //   )
+                    // }
                   >
                     <span className='sr-only'>Open profile menu</span>
 
@@ -188,56 +215,46 @@ const Nav = () => {
                     />
                   </button>
                 </div>
-                {/*
-            Profile dropdown panel, show/hide based on dropdown state.
-
-            Entering: "transition ease-out duration-100"
-              From: "transform opacity-0 scale-95"
-              To: "transform opacity-100 scale-100"
-            Leaving: "transition ease-in duration-75"
-              From: "transform opacity-100 scale-100"
-              To: "transform opacity-0 scale-95"
-          */}
-                <Transition
-                  show={ProfileOptionsDropdownVisibiity}
-                  enter='transition ease-out duration-100'
-                  enterFrom='transform opacity-0 scale-95'
-                  enterTo='transform opacity-100 scale-100'
-                  leave='transition ease-in duration-75'
-                  leaveFrom='transform opacity-100 scale-100'
-                  leaveTo='transform opacity-0 scale-95'
+                <IonPopover
+                  cssClass='popover-top-right'
+                  isOpen={ProfileOptionsDropdownVisibiity.open}
+                  event={ProfileOptionsDropdownVisibiity.event}
+                  onDidDismiss={(e) =>
+                    setProfileOptionsDropdownVisibiity({
+                      open: false,
+                      event: undefined,
+                    })
+                  }
                 >
-                  <div className='origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg z-40'>
-                    <div
-                      className='py-1 bg-white rounded-md shadow-xs'
-                      role='menu'
-                      aria-orientation='vertical'
-                      aria-labelledby='user-menu'
+                  <div
+                    className='py-1 bg-white rounded-md shadow-xs'
+                    role='menu'
+                    aria-orientation='vertical'
+                    aria-labelledby='user-menu'
+                  >
+                    <a
+                      href='/'
+                      className='block py-2 px-4 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out'
+                      role='menuitem'
                     >
-                      <a
-                        href='/'
-                        className='block py-2 px-4 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out'
-                        role='menuitem'
-                      >
-                        Your Profile
-                      </a>
-                      <a
-                        href='/'
-                        className='block py-2 px-4 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out'
-                        role='menuitem'
-                      >
-                        Settings
-                      </a>
-                      <a
-                        href='/'
-                        className='block py-2 px-4 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out'
-                        role='menuitem'
-                      >
-                        Sign out
-                      </a>
-                    </div>
+                      Your Profile
+                    </a>
+                    <a
+                      href='/'
+                      className='block py-2 px-4 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out'
+                      role='menuitem'
+                    >
+                      Settings
+                    </a>
+                    <a
+                      href='/'
+                      className='block py-2 px-4 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out'
+                      role='menuitem'
+                    >
+                      Sign out
+                    </a>
                   </div>
-                </Transition>
+                </IonPopover>
               </div>
             </div>
           </div>
@@ -248,7 +265,13 @@ const Nav = () => {
 
   Menu open: "block", Menu closed: "hidden"
 */}
-      <div className={MenuVisibility ? 'block lg:block' : 'hidden lg:hidden'}>
+      <div
+        className={
+          MenuVisibility && width < breakpoint
+            ? 'block lg:block'
+            : 'hidden lg:hidden'
+        }
+      >
         <div className='px-2 pt-2 pb-3'>
           <a
             href='/'
