@@ -8,9 +8,9 @@ const Nav = () => {
     setProfileOptionsDropdownVisibiity,
   ] = useState(false);
   return (
-    <nav className='bg-indigo-800 border-b border-indigo-400 border-opacity-25 lg:border-none'>
+    <nav className='bg-indigo-800 border-indigo-400 border-opacity-25 lg:border-none'>
       <div className='max-w-7xl mx-auto px-2 sm:px-4 lg:px-8'>
-        <div className='relative h-16 flex items-center justify-between lg:border-b lg:border-indigo-400 lg:border-opacity-25'>
+        <div className='relative h-16 flex items-center justify-between l lg:border-indigo-400 lg:border-opacity-25'>
           <div className='px-2 flex items-center lg:px-0'>
             <div className='flex-shrink-0'>
               <img
@@ -207,7 +207,7 @@ const Nav = () => {
                   leaveFrom='transform opacity-100 scale-100'
                   leaveTo='transform opacity-0 scale-95'
                 >
-                  <div className='origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg'>
+                  <div className='origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg z-40'>
                     <div
                       className='py-1 bg-white rounded-md shadow-xs'
                       role='menu'

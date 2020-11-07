@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet } from '@ionic/react';
+import { IonApp, IonHeader, IonToolbar, IonContent } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 
 /* Core CSS required htmlFor Ionic components to work properly */
@@ -27,34 +27,62 @@ import './theme/variables.css';
 import './theme/tailwind.css';
 import Nav from './components/Nav';
 
-const App: React.FC = () => (
-  <IonApp>
-    <div
-      className='min-h-screen bg-gray-100'
-      data-pg-name='Stacked Layouts - Brand nav with overlap'
-    >
-      <div className='bg-indigo-800 pb-32'>
-        <Nav />
-        <header className='py-10'>
-          <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-            <h1 className='text-3xl leading-9 font-bold text-white'>
-              Dashboard
-            </h1>
-          </div>
-        </header>
-      </div>
-      <main className='-mt-32'>
-        <div className='max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8'>
-          <div className='bg-white rounded-lg shadow px-5 py-6 sm:px-6 text-black'>
-            [react-scripts] Search for the keywords to learn more about each
-            warning. [react-scripts] To ignore, add // eslint-disable-next-line
-            to the line before. [react-scripts] Compiling... [react-scripts]
-            [react-scripts] ./src/App.tsx
-          </div>
+// Switch theme when mobile
+import { useMediaQuery } from 'react-responsive';
+import Content from './components/Content';
+
+const App: React.FC = () => {
+  const isDesktopOrLaptop = useMediaQuery({
+    query: '(min-device-width: 1224px)',
+  });
+
+  return (
+    <IonApp>
+      <div
+        className='min-h-screen bg-gray-100'
+        data-pg-name='Stacked Layouts - Brand nav with overlap'
+      >
+        <div className='bg-indigo-800 pb-32'>
+          <IonHeader>
+            <IonToolbar>
+              <Nav />
+            </IonToolbar>
+          </IonHeader>
         </div>
-      </main>
-    </div>
-  </IonApp>
-);
+        <main className='-mt-32'>
+          <div>
+            {isDesktopOrLaptop ? (
+              <div>
+                <div className='py-5'>
+                  <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+                    <h1 className='text-3xl leading-9 font-bold text-white'>
+                      Dashboard
+                    </h1>
+                  </div>
+                </div>
+                <div className='max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8 '>
+                  <div className='bg-white rounded-lg shadow px-5 py-6 sm:px-6 text-black '>
+                    <Content />
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className='px-0'>
+                <IonContent fullscreen>
+                  <div className='m-4'>
+                    <h1 className='text-3xl leading-9 font-bold text-black '>
+                      Dashboard
+                    </h1>
+                    <Content />
+                  </div>
+                </IonContent>
+              </div>
+            )}
+          </div>
+        </main>
+      </div>
+    </IonApp>
+  );
+};
 
 export default App;
